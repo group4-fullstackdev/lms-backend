@@ -70,7 +70,15 @@ const accountDataSchema = new mongoose.Schema({
     grade:{
         type: String,
         required: true
-    }
+    },
+    gradefname: {
+        type: String,
+        required: true
+      },
+    gradefile: {
+        type: Buffer,
+        required: true
+      },
     
   });
   const StudentGrade = mongoose.model('StudentGrade', studentgradeDataSchema);
