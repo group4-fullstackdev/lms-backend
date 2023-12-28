@@ -92,8 +92,7 @@ const accountDataSchema = new mongoose.Schema({
     },
     modID: {
         type: String,
-        required: true,
-        unique: true 
+        required: true
       },
     batchID: {
         type: String,
@@ -177,6 +176,56 @@ const accountDataSchema = new mongoose.Schema({
   });
   const ModSub = mongoose.model('ModSub', modSubDataSchema);
 
+  //Discusiion Schema
+  const DiscForumDataSchema = new mongoose.Schema({
+    chatsender: {
+      type: String,
+      required: true
+    },
+    batchID: {
+        type: String,
+        required: true,
+      },
+    chat: {
+        type: String,
+        required: true,
+      },
+    chattime: {
+        type: Date,
+        required: true,
+        default: Date.now
+      }
+    
+  });
+  const DiscForum = mongoose.model('DiscForum', DiscForumDataSchema);
+
+  // Notice schema
+  const NoticesDataSchema = new mongoose.Schema({
+    staffID: {
+      type: String,
+      required: true
+    },
+    notetitle: {
+        type: String,
+        required: true,
+      },
+    note: {
+        type: String,
+        required: true,
+      },
+    notetime: {
+        type: Date,
+        required: true,
+        default: Date.now
+      },
+    batchID: {
+        type: String,
+        required: true,
+      },
+    
+  });
+  const Notices = mongoose.model('Notices', NoticesDataSchema);
+
   module.exports = {
     AccountData,
     StudentGrade,
@@ -184,6 +233,8 @@ const accountDataSchema = new mongoose.Schema({
     ModContent,
     ModSub,
     EnrolledMod,
+    Notices,
+    DiscForum
 
 
   }

@@ -8,7 +8,7 @@ app.listen(3001, () => {
     console.log('N-Learn Server started on port 3001');
     });
 
-    const uri = 'mongodb+srv://lmsadmin:lmsadmin123@clusterlms.crshboq.mongodb.net/?retryWrites=true&w=majority';
+    const uri = 'mongodb+srv://lmsadmin:lmsadmin123@clusterlms.crshboq.mongodb.net/n-learn_lms?retryWrites=true&w=majority';
 
     mongoose.connect( uri,
         ) 
