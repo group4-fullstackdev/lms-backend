@@ -74,3 +74,12 @@ const DiscForum = require('../lmsmodel/lmsmodel');
       res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
     }
   }
+
+  module.exports = {
+    deletedisc,
+    editdisc,
+    getchatdisc,
+    setnotices,
+    getnotices,
+    dashboardcon
+  }

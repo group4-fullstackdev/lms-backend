@@ -2,6 +2,11 @@ const express = require('express');
 const app = express();
 const socketio = require('socket.io');
 const mongoose = require('mongoose');
+const {acclogin , getprofile , setprofile , deleteprofile } = require('./lmscontrollers/lmsaccountcontrollers');
+const { dashboardcon , getnotices , setnotices , getchatdisc , editdisc , deletedisc } = require('./lmscontrollers/lmsdashboardcontrollers');
+const { getgrades , getresultsdoc } = require('./lmscontrollers/lmsgradescontrollers');
+const { setmodcontent , getmods , deletemodcontent} = require('./lmscontrollers/lmsmodcontentcontrollers');
+const { getstudentsubmissions , getsubstudent , editsubs , deletesubs , addsubmission} = require('./lmscontrollers/lmssubmissionscontrollers');
 
 
 app.listen(3001, () => {

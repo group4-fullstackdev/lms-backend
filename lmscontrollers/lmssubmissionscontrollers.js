@@ -60,3 +60,11 @@ async function getstudentsubmissions(req, res) {
       res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
     }
   }
+
+  module.exports = {
+    getstudentsubmissions,
+    getsubstudent,
+    editsubs,
+    deletesubs,
+    addsubmission
+  }

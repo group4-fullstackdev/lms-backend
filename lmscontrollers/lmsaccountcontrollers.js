@@ -51,5 +51,12 @@ async function deleteprofile(req, res) {
     }
   }
 
+  module.exports = {
+    deleteprofile,
+    setprofile,
+    getprofile,
+    acclogin
+  }
+
 
 

@@ -38,3 +38,9 @@ async function getmods(req, res) {
       res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
     }
   }
+
+  module.exports = {
+    getmods,
+    deletemodcontent,
+    setmodcontent
+  }
