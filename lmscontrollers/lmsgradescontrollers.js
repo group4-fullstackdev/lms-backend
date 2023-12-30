@@ -4,15 +4,22 @@ const bcrypt = require('bcrypt');
 const StudentGrade = require('../lmsmodel/lmsmodel');
 
 // processes related to student results
-
+const accID = req.session.accID; 
+const batchID = req.session.batchID; 
 //load grades
 
 async function getgrades(req, res) {
     try {
       
+      const grades = await StudentGrade.find(
+        { batchID, accID },
+        { examType: 1, moduleID: 1, exammark: 1, assignmark: 1, totalmark: 1, grade: 1, _id: 0 }
+      );
+      return grades;
+      
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
+      res.status(500).json({ message: 'Error loading Grades. Please try again!' }); 
     }
   }
   
@@ -20,10 +27,15 @@ async function getgrades(req, res) {
   
   async function getresultsdoc(req, res) {
     try {
+      const files = await StudentGrade.find(
+        { batchID, accID },
+        { gradefname: 1, gradefile: 1, _id: 0 }
+      );
+      return files;
       
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
+      res.status(500).json({ message: 'Error loading files for downloading. Please try again later!' }); 
     }
   }
 
