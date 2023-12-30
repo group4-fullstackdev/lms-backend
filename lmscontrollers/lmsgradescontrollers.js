@@ -4,13 +4,13 @@ const bcrypt = require('bcrypt');
 const StudentGrade = require('../lmsmodel/lmsmodel');
 
 // processes related to student results
-const accID = req.session.accID; 
-const batchID = req.session.batchID; 
+
 //load grades
 
 async function getgrades(req, res) {
     try {
-      
+      const accID = req.session.accID; 
+      const batchID = req.session.batchID; 
       const grades = await StudentGrade.find(
         { batchID, accID },
         { examType: 1, moduleID: 1, exammark: 1, assignmark: 1, totalmark: 1, grade: 1, _id: 0 }
@@ -27,6 +27,8 @@ async function getgrades(req, res) {
   
   async function getresultsdoc(req, res) {
     try {
+      const accID = req.session.accID; 
+      const batchID = req.session.batchID; 
       const files = await StudentGrade.find(
         { batchID, accID },
         { gradefname: 1, gradefile: 1, _id: 0 }
