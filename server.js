@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+const cors = require('cors');
 const socketio = require('socket.io');
 const mongoose = require('mongoose');
 const {acclogin , getprofile , setprofile , deleteprofile } = require('./lmscontrollers/lmsaccountcontrollers');
