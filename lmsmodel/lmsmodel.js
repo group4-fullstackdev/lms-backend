@@ -57,7 +57,7 @@ const accountDataSchema = new mongoose.Schema({
     assignmark: {
       type: Number
     },
-    totalnmark: {
+    totalmark: {
         type: Number,
         required: true
       },
