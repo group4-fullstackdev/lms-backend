@@ -87,15 +87,55 @@ const DiscForum = require('../lmsmodel/lmsmodel');
       res.status(500).json({ message: 'Could not able to load the discussion. Please try again!' }); 
     }
   }
+
+  // add chat discussion
+  async function addchats(req, res) {
+    try {
+      const { chat } = req.body;
+      const chatsender = req.session.accID;
+      const batchID = req.session.batchID;
+
+    const newChat = new DiscForum({
+      chatsender,
+      batchID,
+      chat,
+      chattime: new Date(), 
+    });
+    await newChat.save();
+
+    res.status(201).json({ message: 'Chat saved successfully' });
+      
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error saving chat' }); 
+    }
+  }
+  
   
   // edit chat discussion
   
   async function editdisc(req, res) {
     try {
+    const { chat } = req.body;
+    const chatId = req.params.chatId;
+    const chatsender = req.session.accID;
+    const batchID = req.session.batchID;
+
+    const existingChat = await DiscForum.findOne({ _id: chatId, chatsender, batchID });
+
+    if (!existingChat) {
+      return res.status(404).json({ message: 'Chat not found' });
+    }
+
+    existingChat.chat = chat;
+    existingChat.chattime = new Date(); 
+    await existingChat.save();
+
+    res.status(200).json({ message: 'Chat edited successfully' });
       
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
+      res.status(500).json({ message: 'error editing chat!' }); 
     }
   }
   
@@ -103,10 +143,23 @@ const DiscForum = require('../lmsmodel/lmsmodel');
   
   async function deletedisc(req, res) {
     try {
+    const chatId = req.params.chatId;
+    const chatsender = req.session.accID;
+    const batchID = req.session.batchID;
+
+    const existingChat = await DiscForum.findOne({ _id: chatId, chatsender, batchID });
+
+    if (!existingChat) {
+      return res.status(404).json({ message: 'Chat not found ' });
+    }
+
+    await existingChat.remove();
+
+    res.status(200).json({ message: 'Chat deleted successfully' });
       
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
+      res.status(500).json({ message: 'error deleting chat!' }); 
     }
   }
 
@@ -116,5 +169,6 @@ const DiscForum = require('../lmsmodel/lmsmodel');
     getchatdisc,
     setnotices,
     getnotices,
-    dashboardcon
+    dashboardcon,
+    addchats
   }
