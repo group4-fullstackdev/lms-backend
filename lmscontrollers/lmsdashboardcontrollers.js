@@ -1,8 +1,6 @@
 const session = require('express-session');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
-const ModContent = require('../lmsmodel/lmsmodel');
-const ModSub = require('../lmsmodel/lmsmodel');
 const EnrolledMod = require('../lmsmodel/lmsmodel');
 const Notices = require('../lmsmodel/lmsmodel');
 const DiscForum = require('../lmsmodel/lmsmodel');
@@ -55,10 +53,24 @@ const DiscForum = require('../lmsmodel/lmsmodel');
   
   async function setnotices(req, res) {
     try {
+      const { batchID, notetitle, note } = req.body;
+      const staffID = req.session.accID;
+      const notetime = new Date();
+
+      const newNotice = new Notices({
+      staffID,
+      batchID,
+      notetitle,
+      note,
+      notetime
+    });
+    await newNotice.save();
+
+    res.status(201).json({ message: 'Notice added successfully' });
       
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
+      res.status(500).json({ message: 'Error posting Notice. Try again!' }); 
     }
   }
   

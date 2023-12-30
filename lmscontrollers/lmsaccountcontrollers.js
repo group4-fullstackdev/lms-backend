@@ -2,7 +2,7 @@ const session = require('express-session');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const AccountData = require('../lmsmodel/lmsmodel');
-const ModSub = require('../lmsmodel/lmsmodel');
+const lmsMod = require('../lmsmodel/lmsmodel');
 const EnrolledMod = require('../lmsmodel/lmsmodel');
 
 // process related to login and accounts

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const socketio = require('socket.io');
 const mongoose = require('mongoose');
+const session = require('express-session');
 const {acclogin , getprofile , setprofile , deleteprofile } = require('./lmscontrollers/lmsaccountcontrollers');
 const { dashboardcon , getnotices , setnotices , getchatdisc , editdisc , deletedisc } = require('./lmscontrollers/lmsdashboardcontrollers');
 const { getgrades , getresultsdoc } = require('./lmscontrollers/lmsgradescontrollers');
@@ -17,7 +18,13 @@ app.listen(3001, () => {
 
     app.use(bodyParser.json());
     app.use(cors());
-
+    app.use(
+      session({
+        secret: 'nlearnLMS', 
+        resave: false,
+        saveUninitialized: true,
+      })
+    );
 
     const uri = 'mongodb+srv://lmsadmin:lmsadmin123@clusterlms.crshboq.mongodb.net/n-learn_lms?retryWrites=true&w=majority';
 
