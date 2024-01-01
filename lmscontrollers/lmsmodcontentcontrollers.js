@@ -10,10 +10,21 @@ const ModContent = require('../lmsmodel/lmsmodel');
 
 async function setmodcontent(req, res) {
     try {
-      
+    const { modID, contentType, fname, ftitle, confile } = req.body;
+    const newContent = new ModContent({
+      contentType,
+      fname,
+      modID,
+      ftitle,
+      confile: Buffer.from(confile, 'base64'), 
+    });
+    await newContent.save();
+
+    res.status(201).json({ message: 'Content added successfully' });
+    
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
+      res.status(500).json({ message: 'error adding content' }); 
     }
   }
 
@@ -21,10 +32,18 @@ async function setmodcontent(req, res) {
 
 async function deletemodcontent(req, res) {
     try {
+    const ftitle = req.params.ftitle;
+    const deletedContent = await ModContent.findOneAndDelete({ ftitle });
+
+    if (!deletedContent) {
+      return res.status(404).json({ message: 'Content not found' });
+    }
+
+    res.status(200).json({ message: 'Content deleted successfully' });
       
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
+      res.status(500).json({ message: 'error deleting' }); 
     }
   }
 
@@ -32,10 +51,16 @@ async function deletemodcontent(req, res) {
 
 async function getmods(req, res) {
     try {
+    const modID = req.params.ftitle;
+
+    const moduleContent = await ModContent.find({ modID });
+
+    res.status(200).json({ moduleContent });
+      
       
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
+      res.status(500).json({ message: 'error loading content' }); //change the error msg here according to prefs
     }
   }
 
