@@ -102,6 +102,8 @@ const DiscForum = require('../lmsmodel/lmsmodel');
       chattime: new Date(), 
     });
     await newChat.save();
+    
+    io.emit('newChat', { chat, chatsender, batchID });
 
     res.status(201).json({ message: 'Chat saved successfully' });
       

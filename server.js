@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const http = require('http');
 const cors = require('cors');
 const socketio = require('socket.io');
 const mongoose = require('mongoose');
@@ -10,11 +11,15 @@ const { dashboardcon , getnotices , setnotices , getchatdisc , editdisc , delete
 const { getgrades , getresultsdoc } = require('./lmscontrollers/lmsgradescontrollers');
 const { setmodcontent , getmods , deletemodcontent} = require('./lmscontrollers/lmsmodcontentcontrollers');
 const { getstudentsubmissions , getsubstudent , editsubs , deletesubs , addsubmission} = require('./lmscontrollers/lmssubmissionscontrollers');
+const websocket = require('./lmscontrollers/websocket');
 
+const server = http.createServer(app);
+const io = websocket(server);
 
-app.listen(3001, () => {
-    console.log('N-Learn Server started on port 3001');
-    });
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`N-Learn server is running on port ${PORT}`);
+});
 
     app.use(bodyParser.json());
     app.use(cors());
