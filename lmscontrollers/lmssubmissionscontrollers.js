@@ -10,10 +10,17 @@ const EnrolledMod = require('../lmsmodel/lmsmodel');
 
 async function getstudentsubmissions(req, res) {
     try {
+    const modID = req.params.modID;
+    const subtitle = req.params.subtitle;
+    const modSubData = await ModSub.find({ modID, subtitle });
+
+    const responseData = modSubData.map(({ fname, subfile }) => ({ fname, subfile }));
+
+    res.status(200).json({ modSubData: responseData });
       
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
+      res.status(500).json({ message: 'error loading submissions' }); 
     }
   }
   
@@ -21,10 +28,27 @@ async function getstudentsubmissions(req, res) {
   
   async function editsubs(req, res) {
     try {
+    const modID = req.params.modID;
+    const subtitle = req.params.subtitle;
+    const accID = req.session.accID;
+    const { newFname, newSubfile } = req.body;
+
+    const existingData = await ModSub.findOne({ modID, subtitle, accID });
+
+    if (!existingData) {
+      return res.status(404).json({ message: 'Data not found' });
+    }
+
+    existingData.fname = newFname;
+    existingData.subfile = Buffer.from(newSubfile, 'base64'); 
+    existingData.subdate = new Date();
+    await existingData.save();
+
+    res.status(200).json({ message: 'Data updated successfully' });
       
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
+      res.status(500).json({ message: 'error updating' }); 
     }
   }
   
@@ -32,10 +56,20 @@ async function getstudentsubmissions(req, res) {
   
   async function deletesubs(req, res) {
     try {
+    const modID = req.params.modID;
+    const subtitle = req.params.subtitle;
+    const accID = req.session.accID;
+    const deletedData = await ModSub.findOneAndDelete({ modID, subtitle, accID });
+
+    if (!deletedData) {
+      return res.status(404).json({ message: 'Data not found' });
+    }
+
+    res.status(200).json({ message: 'Data deleted successfully' });
       
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
+      res.status(500).json({ message: 'error deleting' }); 
     }
   }
   
@@ -43,10 +77,27 @@ async function getstudentsubmissions(req, res) {
   
   async function addsubmission(req, res) {
     try {
+    const modID = req.params.modID;
+    const subtitle = req.params.subtitle;
+    const accID = req.session.accID;
+    const { fname, subfile } = req.body;
+
+    
+    const newModSubData = new ModSub({
+      accID,
+      modID,
+      fname,
+      subtitle,
+      subfile: Buffer.from(subfile, 'base64'), 
+      subdate: new Date(),
+    });
+    await newModSubData.save();
+
+    res.status(201).json({ message: 'Data added successfully' });
       
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' }); //change the error msg here according to prefs
+      res.status(500).json({ message: 'error submitting' }); 
     }
   }
   
