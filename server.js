@@ -7,7 +7,7 @@ const socketio = require('socket.io');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const {acclogin , getprofile , setprofile , deleteprofile } = require('./lmscontrollers/lmsaccountcontrollers');
-const { dashboardcon , getnotices , setnotices , getchatdisc , editdisc , deletedisc , addchats } = require('./lmscontrollers/lmsdashboardcontrollers');
+const { dashboardcon , getnotices , setnotices , getchatdisc , editdisc , deletedisc , addchats , getdisclist,deletenotices,editnotices,getnoticestaff } = require('./lmscontrollers/lmsdashboardcontrollers');
 const { getgrades , getresultsdoc } = require('./lmscontrollers/lmsgradescontrollers');
 const { setmodcontent , getmods , deletemodcontent} = require('./lmscontrollers/lmsmodcontentcontrollers');
 const { getstudentsubmissions , getsubstudent , editsubs , deletesubs , addsubmission} = require('./lmscontrollers/lmssubmissionscontrollers');
@@ -108,11 +108,35 @@ server.listen(PORT, () => {
             getnotices(req , res)
           });
 
+          //api for load special notices for staff
+
+        app.get('/api/nlearn/getnotices' , (req , res) => {
+          getnoticestaff(req , res)
+        });
+
         //api for post notices only for staff
 
         app.post('/api/nlearn/setnotices' , (req , res) => {
             setnotices(req , res)
           });
+
+        //api for edit notices only for staff
+
+        app.put('/api/nlearn/editnotices' , (req , res) => {
+          editnotices(req , res)
+        });
+
+        //api for delete notices only for staff
+
+        app.delete('/api/nlearn/deletenotices' , (req , res) => {
+          deletenotices(req , res)
+        });
+
+        //api for load discussion batch list only for staff
+
+        app.get('/api/nlearn/getdisclist' , (req , res) => {
+          getdisclist(req , res)
+        });
 
         //api for load chat discussion
 
