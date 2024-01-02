@@ -14,68 +14,28 @@ const EnrolledMod = require('../lmsmodel/lmsmodel');
 
 async function acclogin(req, res) {
   try {
-    const { email, password, accountType } = req.body;
+    const { email, password , accountType } = req.body;
+    const user = await AccountData.findOne({ email , accountType });
 
-    if (accountType === 'student') {
-   
-      const student = await Student.findOne({ email }); 
-
-      if (!student) {
-        return res.status(401).json({ message: 'Invalid email or password' });
-      }
-
-      bcrypt.compare(password, student.password, async (err, result) => {
-        if (result) {
-          req.session.mail = student.email;
-          req.session.usern = student.username;
-          req.session.logid = 'student';
-
-          await req.session.save();
-
-          return res.status(200).json({
-            message: 'success',
-            user: req.session.usern,
-            logid: req.session.logid,
-            mail: req.session.mail,
-            // Other student data
-          });
-        } else {
-          return res.status(401).json({ message: 'Invalid email or password' });
-        }
-      });
-    } else if (accountType === 'teacher') {
-      
-      const teacher = await Teacher.findOne({ email }); 
-
-      if (!teacher) {
-        return res.status(401).json({ message: 'Invalid email or password' });
-      }
-
-      bcrypt.compare(password, teacher.password, async (err, result) => {
-        if (result) {
-          req.session.mail = teacher.email;
-          req.session.usern = teacher.username;
-          req.session.logid = 'teacher';
-
-          await req.session.save();
-
-          return res.status(200).json({
-            message: 'success',
-            user: req.session.usern,
-            logid: req.session.logid,
-            mail: req.session.mail,
-         
-          });
-        } else {
-          return res.status(401).json({ message: 'Invalid email or password' });
-        }
-      });
-    } else {
-      return res.status(400).json({ message: 'Invalid user type' });
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid email' });
     }
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
+    req.session.accID = user.accID;
+    req.session.batchID = user.batchID;
+
+    res.status(200).json({
+      accID: user.accID,
+      batchID: user.batchID,
+      message: 'Login successful',
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'login error' });
   }
 }
 
@@ -129,10 +89,8 @@ async function setprofile(req, res) {
 }
 
 
-//
-
 // update profile
-//
+
 async function updateProfile(req, res) {
   try {
     const { userName, userEmail } = req.body;
