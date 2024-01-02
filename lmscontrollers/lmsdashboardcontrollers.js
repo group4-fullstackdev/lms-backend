@@ -48,6 +48,21 @@ const DiscForum = require('../lmsmodel/lmsmodel');
       res.status(500).json({ message: 'Could not able to load the notices. Please try again later!' }); 
     }
   }
+
+  // load notices for the staff
+  async function getnoticestaff(req, res) {
+    try {
+      const accID = req.session.accID; 
+      const notes = await Notices.find({ accID }).sort({ notetime: 'desc' });
+      res.status(200).json({ notes });
+      
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Could not able to load the notices. Please try again later!' }); 
+    }
+  }
+
+
   
   // post notices
   
@@ -73,6 +88,55 @@ const DiscForum = require('../lmsmodel/lmsmodel');
       res.status(500).json({ message: 'Error posting Notice. Try again!' }); 
     }
   }
+
+  //edit notices
+  async function editnotices(req, res) {
+    try {
+      const { batchID, notetitle, note } = req.body;
+      const staffID = req.session.accID;
+      const notetime = new Date();
+
+    const existingNote = await Notices.findOne({ staffID , notetitle });
+
+    if (!existingChat) {
+      return res.status(404).json({ message: 'notice not found' });
+    }
+
+    existingNote.note = note;
+    existingNote.notetime = notetime; 
+    existingNote.batchID = batchID;
+    await existingNote.save();
+
+    res.status(200).json({ message: 'Notice edited successfully' });
+      
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error posting Notice. Try again!' }); 
+    }
+  }
+
+  // delete notices
+
+  async function deletenotices(req, res) {
+    try {
+      const  notetitle = req.params.notetitle;
+      const staffID = req.session.accID;
+
+    const existingNote = await Notices.findOne({ staffID , notetitle });
+
+    if (!existingChat) {
+      return res.status(404).json({ message: 'notice not found' });
+    }
+    await existingNote.remove();
+
+    res.status(200).json({ message: 'Notice deleted successfully' });
+      
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error posting Notice. Try again!' }); 
+    }
+  }
+
   
   // load chat discusiion
   
@@ -87,6 +151,21 @@ const DiscForum = require('../lmsmodel/lmsmodel');
       res.status(500).json({ message: 'Could not able to load the discussion. Please try again!' }); 
     }
   }
+
+  // load disc batch list for the staff
+
+  async function getdisclist(req, res) {
+    try {
+      const accID = req.session.accID; 
+      const disc = await EnrolledMod.find({ accID });
+      res.status(200).json({ disc });
+      
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Could not able to load the discussion list. Please try again!' }); 
+    }
+  }
+
 
   // add chat discussion
   async function addchats(req, res) {
@@ -172,5 +251,9 @@ const DiscForum = require('../lmsmodel/lmsmodel');
     setnotices,
     getnotices,
     dashboardcon,
-    addchats
+    addchats,
+    getdisclist,
+    deletenotices,
+    editnotices,
+    getnoticestaff
   }
