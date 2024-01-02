@@ -227,6 +227,7 @@ const accountDataSchema = new mongoose.Schema({
   const Notices = mongoose.model('Notices', NoticesDataSchema);
 
   module.exports = {
+    
     AccountData,
     StudentGrade,
     lmsMod,
