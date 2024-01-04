@@ -6,6 +6,7 @@ const cors = require('cors');
 const socketio = require('socket.io');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const AccountData = require('./lmsmodel/lmsmodel');
 const {acclogin, logout , getprofile , setprofile , deleteprofile } = require('./lmscontrollers/lmsaccountcontrollers');
 const { dashboardcon , getnotices , setnotices , getchatdisc , editdisc , deletedisc , addchats , getdisclist,deletenotices,editnotices,getnoticestaff } = require('./lmscontrollers/lmsdashboardcontrollers');
 const { getgrades , getresultsdoc } = require('./lmscontrollers/lmsgradescontrollers');
@@ -37,6 +38,7 @@ server.listen(PORT, () => {
         ) 
         .then( () => {
             console.log("connected to db")
+            
         })
         .catch((err) => {
             console.error(`error : ${err}`)

@@ -1,8 +1,8 @@
 const session = require('express-session');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
-const lmsMod = require('../lmsmodel/lmsmodel');
-const ModContent = require('../lmsmodel/lmsmodel');
+const {lmsMod} = require('../lmsmodel/lmsmodel');
+const {ModContent} = require('../lmsmodel/lmsmodel');
 
 // processes related to module contents
 
