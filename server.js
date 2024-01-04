@@ -110,7 +110,7 @@ server.listen(PORT, () => {
 
           //api for load special notices for staff
 
-        app.get('/api/nlearn/getnotices' , (req , res) => {
+        app.get('/api/nlearn/getnoticestaff' , (req , res) => {
           getnoticestaff(req , res)
         });
 

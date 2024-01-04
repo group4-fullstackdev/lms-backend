@@ -45,7 +45,7 @@ async function acclogin(req, res) {
 
 async function getprofile(req, res) {
   try {
-    const { accID } = req.session; 
+    const { accID } = req.session.accID; 
 
     const userProfile = await AccountData.findOne({ accID });
 
@@ -67,7 +67,7 @@ async function getprofile(req, res) {
 
 async function setprofile(req, res) {
   try {
-    const { accID } = req.session; 
+    const { accID } = req.session.accID; 
     const { name, email } = req.body; 
 
     
