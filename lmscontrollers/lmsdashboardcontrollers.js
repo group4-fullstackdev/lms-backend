@@ -119,12 +119,12 @@ const DiscForum = require('../lmsmodel/lmsmodel');
 
   async function deletenotices(req, res) {
     try {
-      const  notetitle = req.params.notetitle;
+      const  _id = req.params.noteID;
       const staffID = req.session.accID;
 
-    const existingNote = await Notices.findOne({ staffID , notetitle });
+    const existingNote = await Notices.findOne({ staffID , _id });
 
-    if (!existingChat) {
+    if (!existingNote) {
       return res.status(404).json({ message: 'notice not found' });
     }
     await existingNote.remove();
@@ -209,7 +209,6 @@ const DiscForum = require('../lmsmodel/lmsmodel');
     }
 
     existingChat.chat = chat;
-    existingChat.chattime = new Date(); 
     await existingChat.save();
 
     res.status(200).json({ message: 'Chat edited successfully' });

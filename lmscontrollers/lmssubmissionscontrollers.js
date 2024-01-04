@@ -105,6 +105,12 @@ async function getstudentsubmissions(req, res) {
   
   async function getsubstudent(req, res) {
     try {
+    const accID = req.session.accID;
+    const modSubData = await ModSub.find({ accID });
+
+    const responseData = modSubData.map(({ fname, subfile }) => ({ fname, subfile }));
+
+    res.status(200).json({ modSubData: responseData });
       
     } catch (error) {
       console.error(error);
