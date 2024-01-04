@@ -6,7 +6,7 @@ const cors = require('cors');
 const socketio = require('socket.io');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const {acclogin , getprofile , setprofile , deleteprofile } = require('./lmscontrollers/lmsaccountcontrollers');
+const {acclogin, logout , getprofile , setprofile , deleteprofile } = require('./lmscontrollers/lmsaccountcontrollers');
 const { dashboardcon , getnotices , setnotices , getchatdisc , editdisc , deletedisc , addchats , getdisclist,deletenotices,editnotices,getnoticestaff } = require('./lmscontrollers/lmsdashboardcontrollers');
 const { getgrades , getresultsdoc } = require('./lmscontrollers/lmsgradescontrollers');
 const { setmodcontent , getmods , deletemodcontent} = require('./lmscontrollers/lmsmodcontentcontrollers');
@@ -191,4 +191,10 @@ server.listen(PORT, () => {
         app.get('/api/nlearn/getsubstudent' , (req , res) => {
             getsubstudent(req , res)
           });
+
+          //logout
+
+        app.post('/api/nlearn/logout', (req,res) => {
+          logout(req,res)
+        });
 

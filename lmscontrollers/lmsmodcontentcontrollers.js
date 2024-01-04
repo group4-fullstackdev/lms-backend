@@ -51,7 +51,7 @@ async function deletemodcontent(req, res) {
 
 async function getmods(req, res) {
     try {
-    const modID = req.params.ftitle;
+    const modID = req.params.modID;
 
     const moduleContent = await ModContent.find({ modID });
 

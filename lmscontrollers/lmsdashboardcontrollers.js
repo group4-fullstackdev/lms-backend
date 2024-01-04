@@ -25,7 +25,7 @@ const DiscForum = require('../lmsmodel/lmsmodel');
         }
       }
 
-      const moduleNames = modulesInfo.map(module => module.modname);
+      const moduleNames = modulesInfo;
   
       res.status(200).json({ moduleNames });
       

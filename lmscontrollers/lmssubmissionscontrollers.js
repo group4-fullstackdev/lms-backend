@@ -77,8 +77,8 @@ async function getstudentsubmissions(req, res) {
   
   async function addsubmission(req, res) {
     try {
-    const modID = req.params.modID;
-    const subtitle = req.params.subtitle;
+    const modID = 'PUSL3031';
+    const subtitle = 'Coursework';
     const accID = req.session.accID;
     const { fname, subfile } = req.body;
 
