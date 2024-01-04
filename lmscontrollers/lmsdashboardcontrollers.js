@@ -1,9 +1,9 @@
 const session = require('express-session');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
-const EnrolledMod = require('../lmsmodel/lmsmodel');
-const Notices = require('../lmsmodel/lmsmodel');
-const DiscForum = require('../lmsmodel/lmsmodel');
+const {EnrolledMod }= require('../lmsmodel/lmsmodel');
+const {Notices }= require('../lmsmodel/lmsmodel');
+const {DiscForum} = require('../lmsmodel/lmsmodel');
 
 // processes related to dashboard: module listout, discssion forum, special notices
 

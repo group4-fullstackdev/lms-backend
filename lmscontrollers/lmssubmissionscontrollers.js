@@ -1,8 +1,8 @@
 const session = require('express-session');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
-const ModSub = require('../lmsmodel/lmsmodel');
-const EnrolledMod = require('../lmsmodel/lmsmodel');
+const {ModSub} = require('../lmsmodel/lmsmodel');
+const {EnrolledMod} = require('../lmsmodel/lmsmodel');
 
 // processes related to submissions
 

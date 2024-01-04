@@ -1,7 +1,7 @@
 const session = require('express-session');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
-const StudentGrade = require('../lmsmodel/lmsmodel');
+const {StudentGrade} = require('../lmsmodel/lmsmodel');
 
 // processes related to student results
 

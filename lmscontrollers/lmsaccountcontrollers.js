@@ -2,29 +2,30 @@ const mongoose = require("mongoose");
 const session = require('express-session');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
-const AccountData = require('../lmsmodel/lmsmodel');
-const lmsMod = require('../lmsmodel/lmsmodel');
-const EnrolledMod = require('../lmsmodel/lmsmodel');
+const {AccountData} = require('../lmsmodel/lmsmodel');
+const  {lmsMod }= require('../lmsmodel/lmsmodel');
+const {EnrolledMod} = require('../lmsmodel/lmsmodel');
 
 
 
 // process related to login and accounts
 
-
-
 async function acclogin(req, res) {
   try {
-    const { email, password , accountType } = req.body;
-    const user = await AccountData.findOne({ email , accountType });
+    const { email, password, accountType } = req.body;
+    console.log(email , password);
+    const user = await AccountData.findOne({ email});
 
     if (!user) {
       return res.status(401).json({ message: 'Invalid email' });
     }
+
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
       return res.status(401).json({ message: 'Invalid password' });
     }
+
     req.session.accID = user.accID;
     req.session.batchID = user.batchID;
 
@@ -32,13 +33,13 @@ async function acclogin(req, res) {
       accID: user.accID,
       batchID: user.batchID,
       message: 'Login successful',
+
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'login error' });
   }
 }
-
 
 
 // load account data for profile

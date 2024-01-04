@@ -3,6 +3,7 @@
 const req = require('express/lib/request');
 const mongoose = require('mongoose');
 const { buffer } = require('stream/consumers');
+const Schema = mongoose.Schema;
 
 
 //account schema
