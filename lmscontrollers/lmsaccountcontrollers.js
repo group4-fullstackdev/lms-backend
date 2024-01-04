@@ -114,7 +114,19 @@ async function updateProfile(req, res) {
 
 
 
-//
+//logout
+async function logout(req, res) {
+  try {
+    req.session.accID = null;
+    req.session.batchID = null;
+
+    res.status(200).json({ message: 'Profile updated successfully', account: updatedAccount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
 
 
 // delete contents on profile
@@ -140,7 +152,8 @@ module.exports = {
   setprofile,
   getprofile,
   acclogin,
-  updateProfile
+  updateProfile,
+  logout
 };
 
 
